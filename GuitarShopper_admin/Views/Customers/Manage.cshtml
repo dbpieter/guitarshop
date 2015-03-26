@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Manage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using GuitarShopper_admin.Models
+
+
+<div class="col-sm-9 col-md-9">
+    <h2>
+        Gebruikers
+    </h2>
+
+    <table id="customersTable" class="display table table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                @foreach (var s in typeof(CustomerInfo).GetProperties())
+                {
+                    <th>@s.Name</th>
+                }
+                <th>Orders</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (CustomerInfo c in ViewBag.customers)
+            {
+                <tr>
+                    <td>@c.Id</td>
+                    <td>@c.Name</td>
+                    <td>@c.Email</td>
+                    <td>@c.Address</td>
+                    <td>@c.Postalcode</td>
+                    <th><button id="@c.Id" class="btn btn-default editBtn">View orders</button></th>
+                    <th><button id="@c.Id" class="btn btn-danger deleteBtn">Delete</button></th>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/dataTables")
+
+    <script>
+        $(document).ready(function () {
+            $('#customersTable').DataTable();
+        });
+    </script>
+}

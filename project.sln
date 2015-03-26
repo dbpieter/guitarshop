@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "GuitarShopper", "http://localhost:55245", "{76685782-B837-4247-A25B-3703526315B9}"
+	ProjectSection(WebsiteProperties) = preProject
+		UseIISExpress = "true"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_55245"
+		Debug.AspNetCompiler.PhysicalPath = "GuitarShopper\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_55245\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_55245"
+		Release.AspNetCompiler.PhysicalPath = "GuitarShopper\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_55245\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "GuitarShopper\"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuitarShopper_admin", "GuitarShopper_admin\GuitarShopper_admin.csproj", "{3FA93BCB-39FE-4AB6-9054-1452B34FE35F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuitarShopper_api", "GuitarShopper_api\GuitarShopper_api.csproj", "{79C2A52C-020B-455B-AF63-EB5FBDBAB36D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{76685782-B837-4247-A25B-3703526315B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76685782-B837-4247-A25B-3703526315B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76685782-B837-4247-A25B-3703526315B9}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{76685782-B837-4247-A25B-3703526315B9}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{3FA93BCB-39FE-4AB6-9054-1452B34FE35F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FA93BCB-39FE-4AB6-9054-1452B34FE35F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FA93BCB-39FE-4AB6-9054-1452B34FE35F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FA93BCB-39FE-4AB6-9054-1452B34FE35F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79C2A52C-020B-455B-AF63-EB5FBDBAB36D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79C2A52C-020B-455B-AF63-EB5FBDBAB36D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79C2A52C-020B-455B-AF63-EB5FBDBAB36D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79C2A52C-020B-455B-AF63-EB5FBDBAB36D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

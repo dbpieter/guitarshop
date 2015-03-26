@@ -1,0 +1,117 @@
+﻿@{
+    ViewBag.Title = "Manage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using GuitarShopper_admin.Models
+
+
+<div class="col-sm-9 col-md-9">
+    <h2>
+        Orders
+    </h2>
+
+    <table id="ordersTable" class="display table table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                @foreach (var s in typeof(OrderForTable).GetProperties())
+                {
+                    <th>@s.Name</th>
+                }
+                <th>Products</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (OrderForTable o in ViewBag.orders)
+            {
+                <tr>
+                    <td>@o.OrderId</td>
+                    <td>@o.CustomerId</td>
+                    <td>&euro; @o.Amount</td>
+                    <td>
+                        <select class="form-control stateSelect" data-state="@o.State" data-order-id="@o.OrderId">
+                            <option value="verwerking">
+                                verwerking
+                            </option>
+                            <option value="geannuleerd">
+                                geannuleerd
+                            </option>
+                            <option value="afgehandeld">
+                                afgehandeld
+                            </option>
+                        </select>
+                    </td>
+                    <td>@o.DateAdded</td>
+                    <th><button id="@o.OrderId" class="btn btn-default editBtn">View products</button></th>
+                    <th><button id="@o.OrderId" class="btn btn-danger deleteBtn">Delete</button></th>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/dataTables")
+
+    <script>
+        $(document).ready(function () {
+            $('#ordersTable').DataTable();
+
+            $(".stateSelect").each(function () {
+                var selectState = $(this).attr("data-state");
+                $(this).find("option[value=" + selectState + "]").attr("selected", "selected");
+            });
+
+            $('.deleteBtn').click(function () {
+                var tzeId = $(this).attr('id');
+                alert(tzeId);
+                $.ajax({
+                    url: '/Orders/Delete',
+                    dataType: "json",
+                    type: "DELETE",
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify({ id: tzeId }),
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (data) {
+                        console.log(data);
+                        location.reload();
+                    },
+                    error: function (xhr) {
+                        console.log('delete error id:=' + tzeId);
+                    }
+                });
+            });
+
+
+            $(".stateSelect").change(function () {
+                alert("change");
+                var newState = $(this).find("option:selected").val();
+
+                var tzeId = $(this).attr("data-order-id");
+
+                $.ajax({
+                    url: '/Orders/ChangeState',
+                    dataType: "json",
+                    type: "POST",
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify({ id: tzeId, state:newState }),
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (data) {
+                        console.log(data);
+                        location.reload();
+                    },
+                    error: function (xhr) {
+                        console.log('change state error id:=' + tzeId);
+                    }
+                });
+
+            });
+
+        });
+    </script>
+}

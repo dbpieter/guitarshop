@@ -1,0 +1,395 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <link href="css/prettyPhoto.css" rel="stylesheet" />
+    <link href="css/price-range.css" rel="stylesheet" />
+    <link href="css/animate.css" rel="stylesheet" />
+    <link href="css/main.css" rel="stylesheet" />
+    <link href="css/responsive.css" rel="stylesheet" />
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+    <link rel="shortcut icon" href="images/ico/favicon.ico" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png" />
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <header id="header">
+            <!--/header-->
+
+            <div class="header-middle">
+                <!--header-middle-->
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="logo pull-left">
+                                <a href="index.aspx">
+                                    <img src="images/home/logo.png" alt="" /></a>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="shop-menu pull-right">
+                                <ul class="nav navbar-nav">
+                                    <%--<li><a href="#"><i class="fa fa-user"></i>Account</a></li>
+                                    <li><a href="#"><i class="fa fa-star"></i>Wenslijstje</a></li>--%>
+                                    <li><a href="checkout.aspx"><i class="fa fa-crosshairs"></i>Afrekenen</a></li>
+                                    <li><a href="cart.aspx"><i class="fa fa-shopping-cart"></i>Winkelkarretje</a></li>
+                                    <%--<li><a href="login.html"><i class="fa fa-lock"></i>Aanmelden</a></li>--%>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/header-middle-->
+
+            <div class="header-bottom">
+                <!--header-bottom-->
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                            </div>
+                            <div class="mainmenu pull-left">
+                                <ul class="nav navbar-nav collapse navbar-collapse">
+                                    <li><a href="index.aspx" class="active">Home</a></li>
+                                    <li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
+                                        <ul role="menu" class="sub-menu">
+                                            <li><a href="shop.aspx?category_id=2">Elektrische gitaren</a></li>
+                                            <li><a href="shop.aspx?category_id=4">Basgitaren</a></li>
+                                            <li><a href="shop.aspx?category_id=3">Akoestische gitaren</a></li>
+                                            <li><a href="shop.aspx?category_id=1">Accessoires</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="contact.aspx">Contact</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="search_box pull-right">
+                                <input id="searchBar" type="text" placeholder="Zoeken" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/header-bottom-->
+        </header>
+        <!--/header-->
+
+        <asp:ContentPlaceHolder ID="sliderplaceHolder" runat="server">
+        </asp:ContentPlaceHolder>
+
+
+        <section>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="left-sidebar">
+                            <h2>Categorieën</h2>
+                            <div class="panel-group category-products" id="accordian">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordian" href="all">
+                                                <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                                Alle Categoriën
+                                            </a>
+
+                                        </h4>
+                                    </div>
+                                </div>
+                                <asp:Repeater runat="server" ID="CategoryRepeater" OnItemDataBound="CategoryRepeater_ItemDataBound">
+                                    <ItemTemplate>
+                                        <asp:HiddenField ID="hiddenField" runat="server" Value='<%# DataBinder.Eval(Container.DataItem, "id") %>' />
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordian" href="<%# DataBinder.Eval(Container.DataItem, "id") %>">
+                                                        <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                                        <%# DataBinder.Eval(Container.DataItem, "name").ToString().ToLower() %>
+                                                    </a>
+
+                                                </h4>
+                                            </div>
+                                            <div id="<%# DataBinder.Eval(Container.DataItem, "id") %>" class="panel-collapse collapse">
+                                                <div class="panel-body">
+                                                    <ul>
+                                                        <asp:Repeater runat="server" ID="SubCatRepeater">
+
+                                                            <ItemTemplate>
+                                                                <li class="subcat"><a data-subcatid="<%# DataBinder.Eval(Container.DataItem, "id") %>" href="#">
+                                                                    <%# DataBinder.Eval(Container.DataItem, "name") %>
+                                                                </a></li>
+                                                            </ItemTemplate>
+
+                                                        </asp:Repeater>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </div>
+                            <!--/category-products-->
+
+
+
+                            <div class="brands_products">
+                                <!--brands_products-->
+                                <h2>Merken</h2>
+                                <div class="brands-name">
+                                    <ul class="nav nav-pills nav-stacked">
+                                        <li><a id="all" href="#"><span class="pull-right">(*)</span>Alle merken</a></li>
+                                        <asp:Repeater runat="server" ID="brandsRepeater">
+                                            <ItemTemplate>
+                                                <li><a id="<%# DataBinder.Eval(Container.DataItem, "id") %>" href="#"><span class="pull-right">(<%# DataBinder.Eval(Container.DataItem, "count") %>)</span><%# DataBinder.Eval(Container.DataItem, "name") %></a></li>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--/brands_products-->
+
+                            <div class="price-range">
+                                <!--price-range-->
+                                <h2>Prijs</h2>
+                                <div class="well text-center" style="width: 100%;">
+                                    <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="<%= MaxPrice %>" data-slider-step="5" data-slider-value="[0,<%= MaxPrice %>]" id="sl2" /><br />
+                                    <b class="pull-left">&euro; 0</b> <b class="pull-right">&euro; <%= MaxPrice %></b>
+                                </div>
+                            </div>
+
+                            <div class="brands_products">
+                                <!--brands_products-->
+                                <h2>Filter</h2>
+                                <div class="well text-center">
+                                    <a href="#" id="btnFilter" class="btn btn-default add-to-cart"><i class="fa fa-filter"></i>Filter wissen</a>
+                                </div>
+                            </div>
+                            <!--/price-range-->
+
+                            <%-- <div class="shipping text-center">
+                                <!--shipping-->
+                                <img src="images/home/shipping.jpg" alt="" />
+                            </div>--%>
+                            <!--/shipping-->
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-9 padding-right">
+                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                        </asp:ContentPlaceHolder>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <footer id="footer">
+            <!--Footer-->
+
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="row">
+                        <p class="pull-left">Copyright © 2014 GuitarShop Inc. All rights reserved.</p>
+                        <p class="pull-right">Designed by <span><a target="_blank" href="http://www.themeum.com">Themeum</a></span></p>
+                    </div>
+                </div>
+            </div>
+
+        </footer>
+        <!--/Footer-->
+
+        <script src="js/jquery.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.scrollUp.min.js"></script>
+        <script src="js/price-range.js"></script>
+        <script src="js/jquery.prettyPhoto.js"></script>
+        <script src="js/main.js"></script>
+
+        <script>
+            $(document).ready(function () {
+
+                //make sure the correct cat panel is open and the rest collapsed
+                var category_id = getParameterByName("category_id");
+                if (category_id && category_id.length > 0) {
+                    $('.panel-collapse#' + category_id).removeClass('collapse');
+                }
+
+                //restore slider state
+                var mostexp = $("#sl2").attr("data-slider-max");
+                var maxprice = getParameterByName("maxprice");
+                var minprice = getParameterByName("minprice");
+                if (!minprice || minprice < 0) minprice = 0;
+                if (!maxprice || maxprice > mostexp) maxprice = mostexp;
+                $("#sl2").slider().data('slider').setValue([minprice, maxprice])
+
+                //handle slider release;
+                $("#sl2").slider().on('slideStop', function (ev) {
+
+                    var range = $(".tooltip-inner").html().split(":");
+                    var lower = range[0].trim();
+                    var upper = range[1].trim();
+                    //console.log(lower);
+                    //console.log(upper);
+                    reloadWithQueryStringVars({ "minprice": lower, "maxprice": upper }, 'shop.aspx');
+                });
+
+                //on cat click
+                $('a[data-parent=#accordian]').click(function (e) {
+
+                    var id = $(this).attr('href');
+
+                    if (id === "all") //if category is all remove url parameter
+                    {
+                        var url = window.location.href;
+                        console.log(url);
+                        url = removeParameter(url, "category_id");
+                        url = removeParameter(url, "subcategory_id");
+                        var params = url.substring(url.indexOf("?"))
+                        window.location.href = "shop.aspx"; // + params;
+                    }
+                    else {
+                        //alert(id);
+                        reloadWithQueryStringVars({ "category_id": id }, 'shop.aspx');
+                    }
+                })
+
+                //on subcat click
+                $('li.subcat a').click(function () {
+                    var id = $(this).attr('data-subcatid');
+                    reloadWithQueryStringVars({ "subcategory_id": id }, 'shop.aspx');
+                })
+
+                //on brand click
+                $('.brands-name a').click(function () {
+                    var brand_id = $(this).attr('id');
+                    reloadWithQueryStringVars({ "brand_id": brand_id }, "shop.aspx");
+                });
+
+                //search bar enter
+                $('#searchBar').keyup(function (e) {
+                    if (e.keyCode == 13) {
+                        var q = $(this).val();
+                        reloadWithQueryStringVars({ "search": q }, "shop.aspx");
+                    }
+                });
+
+                //on prev page click
+                $("li[data-id=GoBack] a").click(function (e) {
+                    e.preventDefault();
+                    var currentPage = $(".pagination li.active a").html();
+                    reloadWithQueryStringVars({ "page": +currentPage - 1 }, "shop.aspx");
+                });
+
+                //on next page click
+                $("li[data-id=GoForward] a").click(function (e) {
+                    e.preventDefault();
+                    var currentPage = $(".pagination li.active a").html();
+                    //alert(currentPage)
+                    reloadWithQueryStringVars({ "page": +currentPage + +1 }, "shop.aspx");
+                });
+
+                //on page nr click
+                $('.pagination a').click(function (e) {
+                    e.preventDefault();
+                    var pageNr = $(this).html();
+                    if (isNaN(pageNr)) return; // !!!
+                    reloadWithQueryStringVars({ "page": pageNr }, "shop.aspx");
+                });
+
+
+                //reload without query string
+                $('#btnFilter').click(function () {
+                    window.location = window.location.pathname;
+                });
+
+                //thx stackoverflow
+                function reloadWithQueryStringVars(queryStringVars, newPage) {
+                    var existingQueryVars = location.search ? location.search.substring(1).split("&") : [],
+                        currentUrl = location.search ? location.href.replace(location.search, "") : location.href,
+                        newQueryVars = {};
+                    if (newPage && newPage.length > 0) {
+                        var newUrl = newPage + "?";
+                    } else {
+                        var newUrl = currentUrl + "?";
+                    }
+                    if (existingQueryVars.length > 0) {
+                        for (var i = 0; i < existingQueryVars.length; i++) {
+                            var pair = existingQueryVars[i].split("=");
+                            newQueryVars[pair[0]] = pair[1];
+                        }
+                    }
+                    if (queryStringVars) {
+                        for (var queryStringVar in queryStringVars) {
+                            newQueryVars[queryStringVar] = queryStringVars[queryStringVar];
+                        }
+                    }
+                    if (newQueryVars) {
+                        for (var newQueryVar in newQueryVars) {
+                            newUrl += newQueryVar + "=" + newQueryVars[newQueryVar] + "&";
+                        }
+                        newUrl = newUrl.substring(0, newUrl.length - 1);
+                        console.log("new" + newUrl);
+                        window.location.href = newUrl;
+
+                    } else {
+                        console.log("old" + location.href);
+                        window.location.href = location.href;
+                    }
+                }
+
+                //thx stackoverflow
+                function removeParameter(url, parameter) {
+                    var urlparts = url.split('?');
+
+                    if (urlparts.length >= 2) {
+                        var urlBase = urlparts.shift(); //get first part, and remove from array
+                        var queryString = urlparts.join("?"); //join it back up
+
+                        var prefix = encodeURIComponent(parameter) + '=';
+                        var pars = queryString.split(/[&;]/g);
+                        for (var i = pars.length; i-- > 0;)               //reverse iteration as may be destructive
+                            if (pars[i].lastIndexOf(prefix, 0) !== -1)   //idiom for string.startsWith
+                                pars.splice(i, 1);
+                        url = urlBase + '?' + pars.join('&');
+                    }
+                    return url;
+                }
+
+                //thx stackoverflow
+                function getParameterByName(name) {
+                    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                        results = regex.exec(location.search);
+                    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+                }
+            });
+        </script>
+    </form>
+</body>
+</html>

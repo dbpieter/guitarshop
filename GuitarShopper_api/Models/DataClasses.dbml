@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="pieter.debruyne.guitarshop" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=10.129.28.188\SQL_WEBSPACES;Initial Catalog=pieter.debruyne.guitarshop;User ID=pieter.debruyne.guitarshopuser" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="pieter_debruyne_guitarshopConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.brands" Member="brands">
+    <Type Name="brand">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="brand_product" Member="products" ThisKey="id" OtherKey="brand_id" Type="product" />
+    </Type>
+  </Table>
+  <Table Name="dbo.subcategories" Member="subcategories">
+    <Type Name="subcategory">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="category_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="subcategory_product" Member="products" ThisKey="id" OtherKey="subcategory_id" Type="product" />
+      <Association Name="category_subcategory" Member="category" ThisKey="category_id" OtherKey="id" Type="category" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.categories" Member="categories">
+    <Type Name="category">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="category_subcategory" Member="subcategories" ThisKey="id" OtherKey="category_id" Type="subcategory" />
+    </Type>
+  </Table>
+  <Table Name="dbo.customers" Member="customers">
+    <Type Name="customer">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="email" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="address" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="firstname" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="postalcode" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="lastname" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="customer_order" Member="orders" ThisKey="id" OtherKey="customer_id" Type="order" />
+    </Type>
+  </Table>
+  <Table Name="dbo.orders" Member="orders">
+    <Type Name="order">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="customer_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="total" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Column Name="date_added" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Association Name="order_orders_has_product" Member="orders_has_products" ThisKey="id" OtherKey="orders_id" Type="orders_has_product" />
+      <Association Name="customer_order" Member="customer" ThisKey="customer_id" OtherKey="id" Type="customer" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.orders_has_products" Member="orders_has_products">
+    <Type Name="orders_has_product">
+      <Column Name="orders_id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="products_id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="order_orders_has_product" Member="order" ThisKey="orders_id" OtherKey="id" Type="order" IsForeignKey="true" />
+      <Association Name="product_orders_has_product" Member="product" ThisKey="products_id" OtherKey="id" Type="product" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.products" Member="products">
+    <Type Name="product">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+      <Column Name="description" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="price" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Column Name="dateadded" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="lefthanded" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="featured" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="brand_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="stock" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="subcategory_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="color" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="product_orders_has_product" Member="orders_has_products" ThisKey="id" OtherKey="products_id" Type="orders_has_product" />
+      <Association Name="brand_product" Member="brand" ThisKey="brand_id" OtherKey="id" Type="brand" IsForeignKey="true" />
+      <Association Name="subcategory_product" Member="subcategory" ThisKey="subcategory_id" OtherKey="id" Type="subcategory" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

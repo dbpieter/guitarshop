@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using System.web
+@using GuitarShopper_admin.Models
+@model ProductForTable
+
+<div class="col-sm-9 col-md-9">
+        <h2>
+            Producten beheren
+        </h2>
+    @if (ViewBag.message != null)
+    {
+        <div class="alert alert-success">
+            <a class="close" data-dismiss="alert">×</a>
+            <strong>Success!</strong>@ViewBag.message
+        </div>
+    }
+    <table id="productsTable" class="display table table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                @foreach(var s in typeof(ProductForTable).GetProperties()){
+                    <th>@s.Name</th>
+                }
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (ProductForTable p in ViewBag.products) { 
+            <tr>
+                <td>@p.Id</td>
+                <td>@p.Name</td>
+                <td>@p.Category</td>
+                <td>@p.SubCategory</td>
+                <td>@p.Color</td>
+                <td>@p.Price</td>
+                <td>@p.Stock</td>
+                <td><input id="@p.Id" type="checkbox" @if (p.Featured) { <text>checked</text>}></td>
+                <td><a class="btn btn-warning" href="/products/editproduct/@p.Id">Edit</a></td>
+                <td><button id="@p.Id" class="btn btn-danger deleteBtn">Delete</button></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/dataTables")
+
+    <script>
+        $(document).ready(function () {
+            $('#productsTable').DataTable();
+
+            $('.deleteBtn').click(function () {
+                var tzeId = $(this).attr('id');
+
+                $.ajax({
+                    url: '/Products/Delete',
+                    dataType: "json",
+                    type: "DELETE",
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify({ id: tzeId }),
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (data) {
+                        console.log(data);
+                        location.reload();
+                    },
+                    error: function (xhr) {
+                        console.log('delete error id:=' + tzeId);
+                    }
+                });
+            });
+
+            $('input[type=checkbox]').click(function () {
+                var checked = $(this).prop("checked")
+                
+                var tzeId = $(this).attr('id');
+
+                $.ajax({
+                    url: '/Products/FeatureProduct',
+                    dataType: "json",
+                    type: "POST",
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify({ id: tzeId ,featured: checked}),
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (data) {
+                        console.log(data);
+                        //location.reload();
+                    },
+                    error: function (xhr) {
+                        console.log('feature error id:=' + tzeId);
+                    }
+                });
+
+            });
+
+
+        });
+    </script>
+}

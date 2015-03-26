@@ -1,0 +1,248 @@
+﻿@{
+    ViewBag.Title = "NewProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using GuitarShopper_admin.Models
+@model EditProductModel
+
+<div class="col-sm-9 col-md-9">
+    <div class="well bs-component">
+        @using (Html.BeginForm("EditProduct", "Products", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+        {
+            @Html.ValidationSummary(true)
+            <fieldset>
+                <legend>Product bewerken</legend>
+                <div class="form-group">
+                    <label for="name" class="col-lg-2 control-label">Naam</label>
+                    <div class="col-lg-10">
+                        @Html.HiddenFor(model => model.Id)
+                        @Html.TextBoxFor(Model => Model.Name, new { @class = "form-control", @placeholder = "Naam van het product" })
+                        @Html.ValidationMessageFor(model => model.Name)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Description" class="col-lg-2 control-label">Beschrijving</label>
+                    <div class="col-lg-10">
+                        @Html.TextAreaFor(Model => Model.Description, new { @class = "form-control", @rows = "3" })
+                        @Html.ValidationMessageFor(model => model.Description)
+                        <span class="help-block">Geen een beschrijving van het product</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail" class="col-lg-2 control-label">Prijs</label>
+                    <div class="col-lg-10">
+                        @Html.TextBoxFor(Model => Model.Price, new { @class = "form-control", @placeholder = "1" })
+                        @Html.ValidationMessageFor(model => model.Price)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail" class="col-lg-2 control-label">Kleur</label>
+                    <div class="col-lg-10">
+                        @Html.TextBoxFor(Model => Model.Color, new { @class = "form-control", @placeholder = "1" })
+                        @Html.ValidationMessageFor(model => model.Color)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail" class="col-lg-2 control-label">Stock</label>
+                    <div class="col-lg-10">
+                        @Html.TextBoxFor(Model => Model.Stock, new { @class = "form-control", @placeholder = "1" })
+                        @Html.ValidationMessageFor(model => model.Stock)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="select" class="col-lg-2 control-label">Merken</label>
+                    <div class="col-lg-10">
+                        @Html.DropDownList("BrandID", (List<SelectListItem>)ViewBag.brands, "--Geen categorie geselecteerd--", new { @class = "form-control" })
+                        @Html.HiddenFor(model => model.BrandID)
+                        @Html.ValidationMessageFor(model => model.BrandID)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="select" class="col-lg-2 control-label">Categorie</label>
+                    <div class="col-lg-10">
+                        @Html.DropDownList("catdropdown", (List<SelectListItem>)ViewBag.categories, "--Geen categorie geselecteerd--", new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="select" class="col-lg-2 control-label">Subcategorie</label>
+                    <div class="col-lg-10">
+                        @Html.DropDownList("SubcategoryID", (List<SelectListItem>)ViewBag.subcategories, "--Geen subcategorie geselecteerd--", new { @class = "form-control" })
+                        @Html.HiddenFor(model => model.SubcategoryID)
+                        @Html.ValidationMessageFor(model => model.SubcategoryID)
+                        <span class="help-block">jpeg jpg png gif</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Images" class="col-lg-2 control-label">Foto's uploaden</label>
+                    <div class="col-lg-10">
+                        <span class="btn btn-default btn-file">
+                            Kiezen @Html.TextBoxFor(model => model.Images, new { type = "file", multiple = "true" })
+                        </span>
+                        @Html.ValidationMessageFor(model => model.Images)
+                        <p class="help-block">Kies één of meerdere foto's</p>
+                    </div>
+                </div>
+                @if (ViewBag.pictures != null)
+                {
+                    <div class="form-group">
+                        <div class="col-lg-10 col-lg-offset-2">
+                            @foreach (string s in ViewBag.pictures)
+                            {
+                                <div class="img_container">
+                                    <img class="img-thumbnail" src="@Url.Content(s)" />
+                                    <button class="imgBtn btn btn-danger">Verwijderen</button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                }
+                @if (ViewBag.error != null)
+                {
+                    <div class="form-group">
+                        <div class="col-lg-10 col-lg-offset-2 alert alert-danger">
+                            <a href="#" class="close" data-dismiss="alert">&times;</a>
+                            <strong>Error!</strong>@ViewBag.error
+                        </div>
+                    </div>
+                }
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <a href="/Products/Manage" class="btn btn-info">Annuleren</a>
+                        <input type="submit" value="Opslaan" class="btn btn-primary" />
+                    </div>
+                </div>
+            </fieldset>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+
+            //jquery val fails to validate correct decimals (blabla is not a number)
+            jQuery.extend(jQuery.validator.methods, {
+                date: function (value, element) {
+                    return this.optional(element) || /^\d\d?\.\d\d?\.\d\d\d?\d?$/.test(value);
+                },
+                number: function (value, element) {
+                    return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:\.\d{3})+)(?:,\d+)?$/.test(value);
+                }
+            });
+
+            //$.validator.methods.number = function (value, element) {
+            //    return !isNaN(Globalize.parseFloat(value));
+            //}
+
+            //$(document).ready(function () {
+            //    Globalize.culture('nl-BE');
+            //});
+
+
+            //deletes an image
+            $('.imgBtn').click(function (e) {
+                e.preventDefault();
+                var imgTag = $(this).parent().find('img');
+
+                var url = $(this).parent().find('img').attr('src');
+                var fileNameIndex = url.lastIndexOf("/") + 1;
+                var filename = url.substr(fileNameIndex);
+                //console.log(filename);
+
+                var tzeId = $('input#Id').val();
+
+                $.ajax({
+                    url: '/Products/DeleteImage',
+                    dataType: "json",
+                    type: "DELETE",
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify({ id: tzeId,imgname:filename }),
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (data) {
+                        //console.log(data);
+                        imgTag.remove();
+                    },
+                    error: function (xhr) {
+                        console.log('delete image error id:=' + tzeId);
+                    }
+                });
+
+            });
+
+
+            $('select#catdropdown').change(function () {
+                var tzeId = $('select#catdropdown option:selected').val();
+
+                $.ajax({
+                    url: '/Products/GetSubCategories?id=' + tzeId,
+                    dataType: "json",
+                    type: "GET",
+                    contentType: 'application/json; charset=utf-8',
+                    async: true,
+                    processData: false,
+                    cache: false,
+                    success: function (data) {
+                        var $subType = $("select#SubcategoryID");
+                        $subType.empty();
+                        $.each(data, function () {
+                            console.log($(this).attr("ID"));
+                            $subType.append($('<option></option>').attr("value", $(this).attr("ID")).text($(this).attr("Name")));
+                        });
+                    },
+                    error: function (xhr) {
+                        console.log('catselect error id:=' + tzeId);
+                    }
+                });
+            });
+
+            /*if the user selects a subcategory then put the id in the hidden input field that corresponds to it*/
+            $('select#SubcategoryID').change(function () {
+                $('input#SubcategoryID').val($('select#SubcategoryID option:selected').val());
+            });
+
+            /*if the user selects a brand then put the id in the hidden input field that corresponds to it*/
+            $('select#BrandID').change(function () {
+                $('input#BrandID').val($('select#BrandID option:selected').val());
+            });
+
+
+            /*
+             * show validation errors on bootstrap form controls
+             */
+            $('span.field-validation-valid, span.field-validation-error').each(function () {
+                $(this).addClass('help-inline');
+            });
+
+            $('form').submit(function () {
+                if ($(this).valid()) {
+                    $(this).find('div.form-group').each(function () {
+                        if ($(this).find('span.field-validation-error').length == 0) {
+                            $(this).removeClass('has-error');
+                        }
+                    });
+                }
+                else {
+                    $(this).find('div.form-group').each(function () {
+                        if ($(this).find('span.field-validation-error').length > 0) {
+                            $(this).addClass('has-error');
+                        }
+                    });
+                }
+            });
+
+            $('form').each(function () {
+                $(this).find('div.form-group').each(function () {
+                    if ($(this).find('span.field-validation-error').length > 0) {
+                        $(this).addClass('has-error');
+                    }
+                });
+            });
+        });
+    </script>
+}
